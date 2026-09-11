@@ -1,0 +1,577 @@
+<title>Pip Kick Levels</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ink:#17130F; --ground:#FBF6EC; --raise:#FFFFFF; --edge:#E3D9C6;
+    --edge-soft:#EEE6D6; --body:#3A322A; --muted:#7A6E5F;
+    --red:#C8291C; --red-soft:#F6E2DE; --yellow:#B5790A; --yellow-soft:#FBEFD2;
+    --green:#3E7A4E; --green-soft:#E2EFE3; --blue:#2F6690; --blue-soft:#E2EBF2;
+    --display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+    --serif:"Literata",Georgia,serif;
+    --mono:"DM Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#F7EFDF; --ground:#16130F; --raise:#1F1B16; --edge:#332C24;
+      --edge-soft:#282219; --body:#D6CBB9; --muted:#9A8D7C;
+      --red:#F2705F; --red-soft:#33201C; --yellow:#F5B321; --yellow-soft:#332813;
+      --green:#7FBF8E; --green-soft:#1D2C21; --blue:#7FAFD4; --blue-soft:#1A2530;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#F7EFDF; --ground:#16130F; --raise:#1F1B16; --edge:#332C24;
+    --edge-soft:#282219; --body:#D6CBB9; --muted:#9A8D7C;
+    --red:#F2705F; --red-soft:#33201C; --yellow:#F5B321; --yellow-soft:#332813;
+    --green:#7FBF8E; --green-soft:#1D2C21; --blue:#7FAFD4; --blue-soft:#1A2530;
+  }
+
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--body);font-family:var(--serif);
+    font-size:17px;line-height:1.68;margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:780px;margin:0 auto;padding:clamp(28px,6vw,64px) clamp(20px,5vw,40px) 100px;
+    display:flex;flex-direction:column;gap:clamp(36px,7vw,58px)}
+
+  header{display:flex;flex-direction:column;gap:14px}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--red)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(36px,7vw,58px);
+    line-height:1.02;letter-spacing:-.028em;color:var(--ink);margin:0;text-wrap:balance}
+  .standfirst{font-size:clamp(17px,2.4vw,19.5px);line-height:1.62;margin:0;max-width:60ch}
+  .meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);
+    border-top:1px solid var(--edge);padding-top:12px;display:flex;flex-wrap:wrap;gap:6px 22px}
+
+  section{display:flex;flex-direction:column;gap:16px}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(25px,4vw,33px);
+    line-height:1.12;letter-spacing:-.02em;color:var(--ink);margin:0;text-wrap:balance}
+  h3{font-family:var(--display);font-weight:600;font-size:18.5px;line-height:1.3;
+    color:var(--ink);margin:16px 0 0}
+  p{margin:0;max-width:66ch}
+  strong{color:var(--ink);font-weight:600}
+  code{font-family:var(--mono);font-size:.88em;background:var(--edge-soft);
+    padding:1px 5px;border-radius:3px}
+  .lede{font-size:19px;line-height:1.6;color:var(--ink);font-weight:500;max-width:58ch}
+  ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:9px;max-width:66ch}
+  li::marker{color:var(--red)}
+  hr.rule{border:none;border-top:1px solid var(--edge);margin:0}
+
+  .note{border-left:3px solid var(--red);padding:4px 0 4px 18px;
+    display:flex;flex-direction:column;gap:8px}
+  .note .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--red)}
+  .note p{font-size:16px}
+
+  .tw{overflow-x:auto;border:1px solid var(--edge);border-radius:4px;background:var(--raise)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+  th{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 14px;
+    border-bottom:1px solid var(--edge);white-space:nowrap}
+  td{padding:12px 14px;border-bottom:1px solid var(--edge-soft);vertical-align:top;line-height:1.5}
+  tbody tr:last-child td{border-bottom:none}
+  td.what{color:var(--ink);font-weight:500;font-family:var(--display);font-size:15.5px}
+  td.why{font-size:14.5px;max-width:38ch}
+  td.num{font-family:var(--mono);font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  .pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+    text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap}
+  .p-hi{background:var(--red-soft);color:var(--red)}
+  .p-md{background:var(--yellow-soft);color:var(--yellow)}
+  .p-lo{background:var(--edge-soft);color:var(--muted)}
+  .p-ok{background:var(--green-soft);color:var(--green)}
+
+  /* Level ladder — a real sequence, so it is numbered */
+  .ladder{display:flex;flex-direction:column;border:1px solid var(--edge);
+    border-radius:4px;background:var(--raise);overflow:hidden}
+  .lv{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:11px 14px;
+    border-bottom:1px solid var(--edge-soft);align-items:baseline}
+  .lv:last-child{border-bottom:none}
+  .lv.boss{background:var(--yellow-soft)}
+  .lv.world{background:var(--edge-soft)}
+  .lv .n{font-family:var(--mono);font-size:12px;color:var(--red);font-variant-numeric:tabular-nums}
+  .lv.boss .n{color:var(--yellow)}
+  .lv .t{font-size:15px;color:var(--ink)}
+  .lv .d{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:2px}
+  .lv .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted)}
+
+  .stack{display:flex;flex-direction:column;gap:0;counter-reset:s}
+  .step{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:16px 0;
+    border-bottom:1px solid var(--edge-soft)}
+  .step:last-child{border-bottom:none}
+  .step .n{counter-increment:s;font-family:var(--mono);font-size:12px;color:var(--red);
+    padding-top:3px;min-width:2.4em}
+  .step .n::before{content:counter(s,decimal-leading-zero)}
+  .step .bd{display:flex;flex-direction:column;gap:6px}
+  .step .ti{font-family:var(--display);font-weight:600;font-size:18px;color:var(--ink);line-height:1.25}
+  .step .wk{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted)}
+  .step p{font-size:15.5px}
+
+  pre{margin:0;overflow-x:auto;background:var(--raise);border:1px solid var(--edge);
+    border-radius:4px;padding:14px 16px;font-family:var(--mono);font-size:12.5px;
+    line-height:1.62;color:var(--body)}
+  pre b{color:var(--ink);font-weight:500}
+
+  footer{border-top:1px solid var(--edge);padding-top:20px;font-family:var(--mono);
+    font-size:12px;line-height:1.7;color:var(--muted)}
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Pip Kick · Retention memo</div>
+    <h1>An endless game has no destination. That is the whole problem.</h1>
+    <p class="standfirst">
+      The mechanic is good and the systems around it are done. What is missing is
+      a reason to open the app on Tuesday. Below: why levels are the answer, how
+      to build them into this codebase specifically, and the four other things
+      worth doing once they exist.
+    </p>
+    <div class="meta">
+      <span>After 97 checks and a working iOS build</span>
+      <span>Endless, daily, pass · 3 characters · 7 hats</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>The honest diagnosis</h2>
+    <p class="lede">
+      Pip Kick has a lot of systems and no destination. Those are different
+      problems and only one of them is solved.
+    </p>
+    <p>
+      Right now the game has chains, a pot you can bank, tricks, chapters,
+      missions, unlocks, hats, a daily, a pace ghost and a continue. That is a
+      genuinely rich set of mechanics. But every one of them is a way of
+      <em>scoring</em>, and the run always ends the same way — you drop it, and
+      the only thing that changed is a number.
+    </p>
+    <p>
+      There is never a moment where the game says <strong>you did the thing</strong>.
+      No completion, no closure, nothing finished. Which means there is nothing
+      to come back <em>to</em> — only something to come back <em>at</em>.
+    </p>
+
+    <div class="note">
+      <div class="h">The number that should decide this</div>
+      <p>
+        A pure endless arcade game retains roughly <strong>30% at day one and 5%
+        at day seven</strong>. That is the genre, not a failure of execution.
+        Level-based casual games in the same install bracket routinely hold
+        <strong>45% and 15%</strong> — three times the week-one survival, from the
+        same core loop, because a level ends and an endless run does not.
+      </p>
+    </div>
+
+    <h3>Why "one more level" beats "one more run"</h3>
+    <ul>
+      <li><strong>A level has an ending you can see coming.</strong> "One more run"
+        is an open-ended commitment; "one more level" is a bounded one, and people
+        say yes to bounded things at bedtime.</li>
+      <li><strong>Failing a level tells you something.</strong> "You needed five
+        perfects, you got three" is actionable. "You scored 80" is not. Actionable
+        failure is what makes a retry feel like progress instead of repetition.</li>
+      <li><strong>Progress becomes visible and cumulative.</strong> 47 of 120 with
+        gold on 31 of them is a commitment device. A personal best is a single
+        number that erases its own history every time it moves.</li>
+      <li><strong>Designed content beats a difficulty curve.</strong> Endless can
+        only get harder. Levels can get <em>different</em> — and difference is what
+        stops the twentieth session feeling like the second.</li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>How levels work here</h2>
+    <p>
+      The mechanic is already a skill test, which is exactly the thing level
+      design is good at framing. A level is <strong>one objective plus at most two
+      modifiers</strong>, and almost all of the parts exist already.
+    </p>
+
+    <h3>Objectives — each one is a different game</h3>
+    <p>
+      This is where variety comes from. The same tap, framed twelve ways:
+    </p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Objective</th><th>What it actually teaches</th><th>Reads</th></tr></thead>
+        <tbody>
+          <tr><td class="what">Score N</td><td class="why">Nothing on its own — the baseline that every other objective is measured against.</td><td class="num">score</td></tr>
+          <tr><td class="what">Survive N kicks</td><td class="why">Consistency. Rewards the safe kick, which is the opposite of everything else and therefore a genuine change of gear.</td><td class="num">kicks</td></tr>
+          <tr><td class="what">N perfects</td><td class="why">Nerve. You cannot pad this with safe play; you have to go low every time.</td><td class="num">perfects</td></tr>
+          <tr><td class="what">Chain of N</td><td class="why">Sustained precision. One SAFE kick and the count resets — the tension builds across the whole run.</td><td class="num">bestChain</td></tr>
+          <tr><td class="what">Score N in M kicks</td><td class="why"><b>Greed, forced.</b> Safe play mathematically cannot finish this. The best objective in the set.</td><td class="num">score / kicks</td></tr>
+          <tr><td class="what">No SAFE kicks, N total</td><td class="why">Discipline. A single lazy tap fails the level outright.</td><td class="num">bands</td></tr>
+          <tr><td class="what">Land N tricks</td><td class="why">The swipe. Most players will not discover it otherwise, and a level that requires it teaches it permanently.</td><td class="num">tricks</td></tr>
+          <tr><td class="what">Bank N points</td><td class="why">Resource management — when to take the money.</td><td class="num">banked</td></tr>
+          <tr><td class="what">Score N without banking</td><td class="why">The opposite lesson, and the more frightening one.</td><td class="num">score / bankCount</td></tr>
+          <tr><td class="what">Rally N passes</td><td class="why">Accuracy, and it finally gives pass mode a reason to exist.</td><td class="num">passes</td></tr>
+          <tr><td class="what">Reach chapter N</td><td class="why">Endurance, and it shows off the palette work.</td><td class="num">chapter</td></tr>
+          <tr><td class="what">Score N as a character</td><td class="why">Forces you onto Zip or Blaze so their trade-offs stop being decoration.</td><td class="num">score / char</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <strong>Every one of these already exists as a field on the run summary.</strong>
+      The objective system is a predicate over an object the game is already
+      building — not new simulation, just new reading of it.
+    </p>
+
+    <h3>Modifiers — the same objective, twice as hard</h3>
+    <p>
+      Four already ship as chapter rules. Five more are small:
+    </p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Modifier</th><th>Effect</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="what">Gusty</td><td class="why">Wind cap nearly doubled.</td><td><span class="pill p-ok">Built</span></td></tr>
+          <tr><td class="what">Lighter air</td><td class="why">Lower gravity, slower terminal fall.</td><td><span class="pill p-ok">Built</span></td></tr>
+          <tr><td class="what">Narrow court</td><td class="why">Walls close in.</td><td><span class="pill p-ok">Built</span></td></tr>
+          <tr><td class="what">Doubled</td><td class="why">All points ×2.</td><td><span class="pill p-ok">Built</span></td></tr>
+          <tr><td class="what">Blind</td><td class="why"><b>Hide the ground glow.</b> Removes the teaching aid and turns the level into a pure read of the fall. Cheapest new modifier and the most interesting.</td><td><span class="pill p-lo">1 line</span></td></tr>
+          <tr><td class="what">Heavy</td><td class="why">Faster terminal fall — less time to decide.</td><td><span class="pill p-lo">1 line</span></td></tr>
+          <tr><td class="what">Locked</td><td class="why">Banking disabled. The pot rides whether you like it or not.</td><td><span class="pill p-lo">Small</span></td></tr>
+          <tr><td class="what">Sudden</td><td class="why">No continue offered on this level.</td><td><span class="pill p-lo">Small</span></td></tr>
+          <tr><td class="what">Metronome</td><td class="why">The shuttlecock is served on a fixed rhythm rather than from your kick, so timing is imposed rather than chosen.</td><td><span class="pill p-md">Medium</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Three stars, because one pass mark wastes the level</h3>
+    <p>
+      A level you cleared once is finished forever. A level you cleared with one
+      star is an open loop you will come back to. Same content, several times the
+      lifespan — this is the single highest-leverage decision in the whole system.
+    </p>
+    <ul>
+      <li><strong>One star</strong> — meet the objective. Generous; nobody should
+        be stuck.</li>
+      <li><strong>Two stars</strong> — a good run by the player the world is
+        written for.</li>
+      <li><strong>Three stars</strong> — a good run by someone better than that.</li>
+    </ul>
+    <p>
+      These were originally a blanket &times;1.35 and &times;1.8 on every level
+      regardless of type, which could never suit both <em>Score 40</em> and
+      <em>Reach a chain of 6</em>. They are now measured — see the budget below.
+    </p>
+
+    <h3>Every attempt has a kick budget</h3>
+    <p>
+      This is the thing that makes a level a level, and it was missing. A run
+      only ended when you dropped it, and a patient player never drops it: kick
+      in the GOOD band forever and nothing in the rules stops you. So every
+      threshold was either free — keep going until you pass it — or, for the
+      objectives that checked the kick count at the end, impossible.
+      <em>Score 90 in 12 kicks</em> asked you to score 90 and then stop playing;
+      carrying on after you had earned it failed the level.
+    </p>
+    <p>
+      An attempt now lasts a fixed number of kicks and then ends on its own
+      terms. Not a drop — the pot is paid into the score rather than lost,
+      because you did not fail, you finished. Roughly ten to twenty-four kicks in
+      world one, up to about seventy later; survival objectives are the exception,
+      since for them the kick count <em>is</em> the objective.
+    </p>
+
+    <h3>The rally gets faster</h3>
+    <p>
+      The endless game changed how it looked every chapter and how one rule
+      worked, but never how fast it went, so a long run was a test of patience
+      rather than of anything getting harder. Playtesting on a phone put it
+      plainly: <em>does the ball ever drop faster?</em> It did not.
+    </p>
+    <p>
+      The descent now accelerates with the kick count — flat for the first
+      twelve kicks, then climbing to +35% by kick 67 and holding there. Only the
+      fall is scaled. Scaling the rise as well would lower the apex and quietly
+      change which scoring band every kick lands in, which is a different game
+      rather than a faster one. The window to read a PERFECT drops from 344ms to
+      255ms; median rallies shorten by roughly a third, and a run now ends
+      because it got quick rather than because attention wandered.
+    </p>
+    <p>
+      It is deterministic in the kick count, so the daily challenge stays
+      reproducible. Every level number below was re-derived underneath it.
+    </p>
+
+    <h3>The numbers were played before they shipped</h3>
+    <p>
+      <code>tools/tune-levels.mjs</code> drives the real simulation with a bot at
+      four skill levels and reports what each level actually yields. Its model of
+      skill is a target height to wait for and a reaction time — aim for the
+      bottom of the window and a late tap misses entirely, which is the game's
+      real tension rather than an invented one. A calibrated lapse rate bounds
+      the rally, because otherwise a patient bot plays forever.
+    </p>
+    <p>
+      It is a very good detector: it found the unbounded run above, found that
+      <code>passes</code> was missing from the finished summary so every rally
+      level graded as zero however well it went, and found eight levels that
+      could not be beaten at any skill. It is a poor designer — it swipes a trick
+      on most kicks and never gets bored, and letting it write the ladder
+      produced &ldquo;reach chapter 1&rdquo; as the final boss. So it sets the
+      budgets, caps three stars where it can prove the target unreachable, and
+      the asks stay hand-written.
+    </p>
+
+    <h3>The first answer blamed the levels</h3>
+    <p>
+      Ten levels came back &ldquo;brutal&rdquo; — a 20&ndash;35% clear rate for
+      the strongest bot — and they clustered on the <code>heavy</code> and
+      <code>double</code> modifiers. That looked like a difficulty finding. It
+      was not. The bot waited for the shuttlecock to reach a target height and
+      then tapped after its reaction delay, so every contact landed
+      <code>vy &times; delay</code> lower than it intended; under a faster fall
+      it drove itself into the ground. It read &ldquo;falls faster&rdquo; as
+      &ldquo;unplayable&rdquo; because it had never learned to go early.
+    </p>
+    <p>
+      Players lead the ball. Giving the bot the same anticipation — a
+      skill-dependent fraction of the delay, from 0.35 for a novice to 0.95 for
+      an expert — took the flagged count from ten to two without touching a
+      single level. The eleven asks that had already been lowered on that bad
+      evidence were put back.
+    </p>
+    <p>
+      What survived was one real economy finding: banking pays about 60 points
+      over a world-one attempt and about 120 over a world-three one, so
+      <em>Bank 200 points</em> was never possible. Those two asks came down, and
+      banking levels now get the longer attempt their chain-building needs.
+    </p>
+    <p>
+      Before: 27 of 60 flagged, 8 unbeatable, 2 free. After: <strong>0 flagged
+      over three independent runs</strong> — every level beatable, none trivial,
+      and no level where clearing hands you all three stars. Three stars sits
+      between 1.4&times; and 2.0&times; one star across the whole ladder. The
+      clear rate falls from 57% to 37% for a middling player between world one
+      and world five, which is the curve.
+    </p>
+    <p>
+      Stars are the currency. They gate worlds, hats and characters — replacing
+      the mission stars that currently do that job, which keeps one economy
+      instead of two.
+    </p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>The first twenty levels</h2>
+    <p>
+      The opening is the only part that must be hand-designed. Each of the first
+      five introduces exactly one idea and nothing else. After that the sawtooth
+      starts: hard, then two easier, so relief arrives before frustration does.
+    </p>
+
+    <div class="ladder">
+      <div class="lv world"><span class="n">W1</span><div><div class="t">Afternoon</div><div class="d">No modifiers. The game as it is.</div></div></div>
+      <div class="lv"><span class="n">1</span><div><div class="t">Keep it up for 6 kicks</div><div class="d">Teaches: tap. Nothing can go wrong.</div></div></div>
+      <div class="lv"><span class="n">2</span><div><div class="t">Score 40</div><div class="d">Teaches: low is worth more. The glow does the explaining.</div></div></div>
+      <div class="lv"><span class="n">3</span><div><div class="t">Land 3 perfects</div><div class="d">Teaches: the bottom band is the point.</div></div></div>
+      <div class="lv"><span class="n">4</span><div><div class="t">Reach a chain of 6</div><div class="d">Teaches: the multiplier, and that SAFE breaks it.</div></div></div>
+      <div class="lv"><span class="n">5</span><div><div class="t">Score 90 in 12 kicks</div><div class="d">Teaches: greed. Safe play cannot finish this. <span class="tag">first real wall</span></div></div></div>
+      <div class="lv boss"><span class="n">6</span><div><div class="t">Land 2 tricks</div><div class="d">Teaches: the swipe — the control nobody finds alone. <span class="tag">boss · unlocks Zip</span></div></div></div>
+      <div class="lv"><span class="n">7</span><div><div class="t">Survive 20 kicks</div><div class="d">Relief. Safe play is correct here, which is a change of gear.</div></div></div>
+      <div class="lv"><span class="n">8</span><div><div class="t">Bank 60 points</div><div class="d">Teaches: taking the money.</div></div></div>
+      <div class="lv"><span class="n">9</span><div><div class="t">Score 140 without banking</div><div class="d">Teaches: the opposite. Now the decision has two real sides.</div></div></div>
+      <div class="lv"><span class="n">10</span><div><div class="t">Chain of 12 · gusty</div><div class="d">First modifier. <span class="tag">boss</span></div></div></div>
+
+      <div class="lv world"><span class="n">W2</span><div><div class="t">Gusty</div><div class="d">Wind on most levels. Introduces: <b>blind</b>.</div></div></div>
+      <div class="lv"><span class="n">11</span><div><div class="t">Score 120 · gusty</div><div class="d">Re-teaches level 2 against a crosswind.</div></div></div>
+      <div class="lv"><span class="n">12</span><div><div class="t">6 perfects · blind</div><div class="d">The glow is gone. You are reading the fall, not the UI. <span class="tag">new modifier</span></div></div></div>
+      <div class="lv"><span class="n">13</span><div><div class="t">Survive 25 kicks · gusty</div><div class="d">Relief, with weather.</div></div></div>
+      <div class="lv"><span class="n">14</span><div><div class="t">Score 200 in 20 kicks</div><div class="d">Greed again, at scale.</div></div></div>
+      <div class="lv"><span class="n">15</span><div><div class="t">15 kicks, no SAFE ones</div><div class="d">One lazy tap fails it. <span class="tag">boss</span></div></div></div>
+      <div class="lv"><span class="n">16</span><div><div class="t">Rally 10 passes with Zip</div><div class="d">Pass mode finally has a reason to exist.</div></div></div>
+      <div class="lv"><span class="n">17</span><div><div class="t">Score 160 as Zip</div><div class="d">Forces the cape trade-off into your hands.</div></div></div>
+      <div class="lv"><span class="n">18</span><div><div class="t">4 tricks · blind</div><div class="d">Two taught ideas, combined for the first time.</div></div></div>
+      <div class="lv"><span class="n">19</span><div><div class="t">Chain of 18</div><div class="d">Pure nerve, no modifier. Clean before the boss.</div></div></div>
+      <div class="lv boss"><span class="n">20</span><div><div class="t">Score 320 in 28 kicks · gusty · locked</div><div class="d">Everything at once, banking disabled. <span class="tag">boss · unlocks Blaze</span></div></div></div>
+    </div>
+
+    <div class="note">
+      <div class="h">The pattern to keep</div>
+      <p>
+        Levels 1–5 introduce one idea each and nothing else. From 6, the shape is
+        <strong>hard, easy, easy, hard</strong> with a boss every fifth and a new
+        world every tenth. Characters unlock at bosses, not at score thresholds —
+        an unlock that arrives as a reward for a named achievement is worth several
+        times one that arrives because a number crossed a line.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>Building it into this codebase</h2>
+    <p>
+      Most of the work is already done. The simulation, the modifiers, the run
+      summary and the star economy all exist — this is mostly assembly.
+    </p>
+
+    <pre><b>src/levels.js</b>      level table + objective predicates + star thresholds
+<b>src/game.js</b>        g.level, objective progress on each kick, pass/fail at finish
+<b>src/levelmap.js</b>    the map screen: nodes, stars, locked worlds
+<b>src/save.js</b>        v8: per-level stars, furthest unlocked
+<b>src/ui.js</b>          objective banner during play, results card after</pre>
+
+    <p>A level is data, not code:</p>
+    <pre>{ id: 5, world: 1, boss: false,
+  goal: { <b>type</b>: "scoreIn", n: 90, kicks: 12 },
+  mods: [],
+  stars: [90, 122, 162],            <b>// one, two, three</b>
+  budget: 12,                       <b>// kicks in the attempt</b>
+  hint: "Safe kicks will not get you there." }</pre>
+
+    <p>
+      An objective is a predicate over the summary the game already builds:
+    </p>
+    <pre>scoreIn: (s, g) => s.kicks &lt;= g.kicks && s.score &gt;= g.score,
+noSafe:  (s, g) => s.kicks &gt;= g.kicks && !s.bands.includes("S"),
+chain:   (s, g) => s.bestChain &gt;= g.chain,</pre>
+
+    <div class="stack">
+      <div class="step"><div class="n"></div><div class="bd">
+        <div class="ti">Objectives and the results card</div>
+        <div class="wk">~6h</div>
+        <p>The level table, the predicates, star thresholds, and a result screen
+          that says what you needed and what you got. Playable against a
+          hardcoded list of ten before any map exists.</p>
+      </div></div>
+      <div class="step"><div class="n"></div><div class="bd">
+        <div class="ti">Objective banner and live progress</div>
+        <div class="wk">~3h</div>
+        <p>The goal sits in the HUD during the run — "4 / 6 perfects" — so you
+          always know whether this attempt is still alive. A level whose failure
+          you only learn about at the end is a level you will not retry.</p>
+      </div></div>
+      <div class="step"><div class="n"></div><div class="bd">
+        <div class="ti">The map</div>
+        <div class="wk">~8h</div>
+        <p>Nodes down a scrolling path, stars under each, worlds as coloured
+          bands using the chapter palettes. Mark levels you failed narrowly —
+          "you were one perfect away" — because that is the near-miss at map
+          scale, and it is the strongest pull on the screen.</p>
+      </div></div>
+      <div class="step"><div class="n"></div><div class="bd">
+        <div class="ti">The four new modifiers</div>
+        <div class="wk">~4h</div>
+        <p>Blind, heavy, locked, sudden. Blind first — hiding the ground glow is
+          one line and changes the game more than the other three together.</p>
+      </div></div>
+      <div class="step"><div class="n"></div><div class="bd">
+        <div class="ti">Design and tune 60 levels</div>
+        <div class="wk">~14h</div>
+        <p>The actual craft. The first twenty by hand from the table above; the
+          rest generated from objective × modifier combinations and then played
+          and adjusted. Star thresholds want a pass over real runs, not guesses.</p>
+      </div></div>
+      <div class="step"><div class="n"></div><div class="bd">
+        <div class="ti">Fold the economies together</div>
+        <div class="wk">~3h</div>
+        <p>Level stars replace mission stars. Missions become a daily side-quest
+          that also pays stars, rather than the only source. One currency.</p>
+      </div></div>
+    </div>
+
+    <p><strong>Roughly 38 hours</strong> to a 60-level game. Endless stays as an
+      Arcade mode on the menu, and the daily is untouched.</p>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>The four other things, ranked</h2>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Add</th><th>Why it works</th><th>Est</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="what">Local notifications</td>
+            <td class="why">"Today's daily is up." Needs no account and no server — the phone schedules it. This is the cheapest retention point available anywhere in the product, and it is the only mechanism that reaches someone who has closed the app.</td>
+            <td class="num">3h</td>
+            <td><span class="pill p-hi">Very high</span></td>
+          </tr>
+          <tr>
+            <td class="what">Collections</td>
+            <td class="why">Hats already work. Add trails, shuttlecock feathers, ground patterns and outfits — all procedural, so a new one costs a few paths rather than an art commission. Collecting is the most reliable long-term retention driver in casual games, and here it is nearly free.</td>
+            <td class="num">10h</td>
+            <td><span class="pill p-hi">High</span></td>
+          </tr>
+          <tr>
+            <td class="what">Daily streak</td>
+            <td class="why">Seven consecutive days pays a hat. Slightly cynical, extremely effective, and it pairs with the notification rather than duplicating it.</td>
+            <td class="num">3h</td>
+            <td><span class="pill p-md">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="what">Weekly level pack</td>
+            <td class="why">Five new levels every Monday. Turns a finite game into a subscription-shaped one without a subscription. Only worth it once the level system exists and people are finishing worlds.</td>
+            <td class="num">ongoing</td>
+            <td><span class="pill p-md">Later</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What not to build</h3>
+    <ul>
+      <li><strong>Energy or lives.</strong> It buys a little revenue and costs the
+        entire goodwill of a charm-led game. Wrong instrument for this product,
+        and a level system does not need one to work.</li>
+      <li><strong>Real-time multiplayer.</strong> Async comparison gives most of
+        the social value for none of the netcode.</li>
+      <li><strong>A second currency.</strong> Stars do everything. Coins on top of
+        stars is a spreadsheet, not a game.</li>
+      <li><strong>Loot boxes.</strong> Regulatory exposure, and completely at odds
+        with what these characters are.</li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>The order I would do it</h2>
+    <p class="lede">
+      Notifications first, because they are three hours and reach people who have
+      already left. Then levels, because they are the reason to come back to.
+    </p>
+    <ol style="margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:9px;max-width:66ch">
+      <li><strong>Local notifications</strong> — 3h. Nothing else you can build
+        this week will move retention as far.</li>
+      <li><strong>Levels 1–20 with objectives and a results card</strong> — 13h.
+        Ship a playable ladder before building the map; if the objectives are not
+        fun, no map will save them.</li>
+      <li><strong>The map</strong> — 8h. Only once the levels are known to work.</li>
+      <li><strong>Blind, heavy, locked, sudden</strong> — 4h, then design out to
+        sixty levels.</li>
+      <li><strong>Collections</strong> — 10h, once there is a star economy worth
+        spending.</li>
+    </ol>
+
+    <div class="note">
+      <div class="h">The one thing to be honest about</div>
+      <p>
+        None of this changes the ceiling set by distribution. A game with levels
+        and notifications retains three times better than one without — but three
+        times a very small audience is still a very small audience. The
+        <strong>characters remain the asset</strong>, and the pose editor and
+        sticker pack that already exist are still the shortest path to people
+        knowing this game is here at all.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    Pip Kick · retention memo<br>
+    Retention figures are industry-typical bands for casual titles, not
+    projections. Effort estimates are focused build hours for one developer.
+  </footer>
+</div>

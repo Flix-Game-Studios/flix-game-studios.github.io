@@ -1,0 +1,764 @@
+<title>Pip Kick Roadmap</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ink:#17130F;
+    --ground:#FBF6EC;
+    --raise:#FFFFFF;
+    --edge:#E3D9C6;
+    --edge-soft:#EEE6D6;
+    --body:#3A322A;
+    --muted:#7A6E5F;
+    --red:#C8291C;
+    --red-soft:#F6E2DE;
+    --yellow:#E8A00C;
+    --yellow-soft:#FBEFD2;
+    --green:#3E7A4E;
+    --green-soft:#E2EFE3;
+
+    --display:"Fredoka","Trebuchet MS",system-ui,sans-serif;
+    --serif:"Literata",Georgia,"Times New Roman",serif;
+    --mono:"DM Mono",ui-monospace,Menlo,monospace;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#F7EFDF;
+      --ground:#16130F;
+      --raise:#1F1B16;
+      --edge:#332C24;
+      --edge-soft:#282219;
+      --body:#D6CBB9;
+      --muted:#9A8D7C;
+      --red:#F2705F;
+      --red-soft:#33201C;
+      --yellow:#F5B321;
+      --yellow-soft:#332813;
+      --green:#7FBF8E;
+      --green-soft:#1D2C21;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#F7EFDF;
+    --ground:#16130F;
+    --raise:#1F1B16;
+    --edge:#332C24;
+    --edge-soft:#282219;
+    --body:#D6CBB9;
+    --muted:#9A8D7C;
+    --red:#F2705F;
+    --red-soft:#33201C;
+    --yellow:#F5B321;
+    --yellow-soft:#332813;
+    --green:#7FBF8E;
+    --green-soft:#1D2C21;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    background:var(--ground);
+    color:var(--body);
+    font-family:var(--serif);
+    font-size:17px;
+    line-height:1.68;
+    margin:0;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:clamp(28px,6vw,64px) clamp(20px,5vw,40px) 100px;
+    display:flex;
+    flex-direction:column;
+    gap:clamp(38px,7vw,62px);
+  }
+
+  /* ── Masthead ─────────────────────────────────────── */
+  header{display:flex;flex-direction:column;gap:14px}
+  .kicker{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--red);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(38px,7.5vw,60px);
+    line-height:1.02;
+    letter-spacing:-.028em;
+    color:var(--ink);
+    margin:0;
+    text-wrap:balance;
+  }
+  .standfirst{
+    font-size:clamp(17px,2.4vw,19.5px);
+    line-height:1.62;
+    color:var(--body);
+    margin:0;
+    max-width:60ch;
+  }
+  .meta{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.06em;
+    color:var(--muted);
+    border-top:1px solid var(--edge);
+    padding-top:12px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 22px;
+  }
+
+  /* ── Sections ─────────────────────────────────────── */
+  section{display:flex;flex-direction:column;gap:16px}
+  h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(25px,4vw,33px);
+    line-height:1.12;
+    letter-spacing:-.02em;
+    color:var(--ink);
+    margin:0;
+    text-wrap:balance;
+  }
+  h3{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:18.5px;
+    line-height:1.3;
+    color:var(--ink);
+    margin:16px 0 0;
+  }
+  p{margin:0;max-width:66ch}
+  strong{color:var(--ink);font-weight:600}
+  em{font-style:italic}
+  a{color:var(--red);text-underline-offset:3px}
+
+  .lede{
+    font-size:19px;
+    line-height:1.6;
+    color:var(--ink);
+    font-weight:500;
+    max-width:58ch;
+  }
+
+  ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:9px;max-width:66ch}
+  li::marker{color:var(--red)}
+
+  /* ── The fork: the one decision everything hangs on ── */
+  .fork{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(258px,1fr));
+    gap:14px;
+  }
+  .path{
+    border:1px solid var(--edge);
+    border-radius:4px;
+    padding:20px 20px 22px;
+    background:var(--raise);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .path.pick{
+    border-color:var(--red);
+    border-width:2px;
+    padding:19px 19px 21px;
+  }
+  .path .lbl{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .path.pick .lbl{color:var(--red)}
+  .path .nm{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:20px;
+    color:var(--ink);
+    line-height:1.2;
+  }
+  .path p{font-size:15.5px;line-height:1.58}
+  .path .verdict{
+    font-family:var(--mono);
+    font-size:12px;
+    line-height:1.5;
+    color:var(--ink);
+    border-top:1px solid var(--edge);
+    padding-top:10px;
+    margin-top:auto;
+  }
+
+  /* ── Ranked tables ────────────────────────────────── */
+  .tw{overflow-x:auto;border:1px solid var(--edge);border-radius:4px;background:var(--raise)}
+  table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+  th{
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:10.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-align:left;
+    padding:12px 14px;
+    border-bottom:1px solid var(--edge);
+    white-space:nowrap;
+  }
+  td{
+    padding:13px 14px;
+    border-bottom:1px solid var(--edge-soft);
+    vertical-align:top;
+    line-height:1.5;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td.what{color:var(--ink);font-weight:500;font-family:var(--display);font-size:15.5px}
+  td.why{color:var(--body);font-size:14.5px;max-width:34ch}
+
+  .pill{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+  .p-hi{background:var(--red-soft);color:var(--red)}
+  .p-md{background:var(--yellow-soft);color:var(--yellow)}
+  .p-lo{background:var(--edge-soft);color:var(--muted)}
+  .p-ok{background:var(--green-soft);color:var(--green)}
+
+  /* ── Callout ──────────────────────────────────────── */
+  .note{
+    border-left:3px solid var(--red);
+    padding:4px 0 4px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .note .h{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--red);
+  }
+  .note p{font-size:16px}
+
+  /* ── Money model ──────────────────────────────────── */
+  .model{
+    background:var(--raise);
+    border:1px solid var(--edge);
+    border-radius:4px;
+    padding:0;
+    overflow:hidden;
+  }
+  .model .row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+    padding:11px 18px;
+    border-bottom:1px solid var(--edge-soft);
+    font-family:var(--mono);
+    font-size:13.5px;
+  }
+  .model .row:last-child{border-bottom:none}
+  .model .row span:first-child{color:var(--body)}
+  .model .row span:last-child{color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .model .row.tot{background:var(--edge-soft);font-weight:500}
+  .model .row.tot span{color:var(--ink)}
+  .model .hd{
+    padding:13px 18px;
+    background:var(--edge-soft);
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--muted);
+    border-bottom:1px solid var(--edge);
+  }
+  .compare{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(238px,1fr));
+    gap:14px;
+  }
+
+  /* ── Ship order — a real sequence, so it gets numbers ── */
+  .ship{display:flex;flex-direction:column;gap:0;counter-reset:s}
+  .stage{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:18px;
+    padding:18px 0;
+    border-bottom:1px solid var(--edge-soft);
+  }
+  .stage:last-child{border-bottom:none}
+  .stage .n{
+    counter-increment:s;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--red);
+    padding-top:3px;
+    min-width:2.4em;
+  }
+  .stage .n::before{content:counter(s,decimal-leading-zero)}
+  .stage .bd{display:flex;flex-direction:column;gap:7px}
+  .stage .ti{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:18px;
+    color:var(--ink);
+    line-height:1.25;
+  }
+  .stage .wk{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .stage p{font-size:15.5px}
+
+  footer{
+    border-top:1px solid var(--edge);
+    padding-top:20px;
+    font-family:var(--mono);
+    font-size:12px;
+    line-height:1.7;
+    color:var(--muted);
+  }
+
+  hr.rule{
+    border:none;
+    border-top:1px solid var(--edge);
+    margin:0;
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Pip Kick · Direction memo</div>
+    <h1>You don&rsquo;t have a game problem. You have an IP you haven&rsquo;t spent yet.</h1>
+    <p class="standfirst">
+      The prototype works — the core tap is tense and the scoring rule does its job.
+      What&rsquo;s missing isn&rsquo;t polish, it&rsquo;s a reason to open the app tomorrow.
+      Below: what to build, in what order, and the honest arithmetic on what it pays.
+    </p>
+    <div class="meta">
+      <span>Prototype v0.1</span>
+      <span>Canvas · single file · no engine</span>
+      <span>github.com/38st/pip-kick</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Start from what&rsquo;s actually true</h2>
+    <p class="lede">
+      You came to this with three characters and no mechanic. That ordering matters more
+      than anything else in this document.
+    </p>
+    <p>
+      Most mobile games start from a mechanic and bolt on a skin. Yours starts from
+      Pip, Zip and Blaze — designs with strong silhouettes, a coherent world, and
+      genuine charm. That&rsquo;s the rarer half. Mechanics are cheap; characters people
+      actually like are not.
+    </p>
+    <p>
+      So the strategic question is not &ldquo;how do we make this game bigger.&rdquo; It&rsquo;s
+      <strong>&ldquo;what is the game for.&rdquo;</strong> Two honest answers, and they lead to
+      completely different builds:
+    </p>
+
+    <div class="fork">
+      <div class="path">
+        <div class="lbl">Path A</div>
+        <div class="nm">Hyper-casual</div>
+        <p>
+          Free, ad-saturated, engineered for install volume. Success needs millions of
+          downloads bought with paid user acquisition, then arbitraged against ad revenue.
+        </p>
+        <p class="verdict">
+          Hard pass. That arbitrage stopped working years ago, the publishers who
+          survived (Voodoo, Homa, Supersonic) own the funnel and most of the upside,
+          and the model treats your characters as interchangeable. You&rsquo;d be renting
+          out the one asset you own.
+        </p>
+      </div>
+      <div class="path pick">
+        <div class="lbl">Path B · Recommended</div>
+        <div class="nm">Character-led</div>
+        <p>
+          The game is the front door to the characters, not the whole business. Ship it
+          free with light monetization, but treat Pip as a property that also lives in
+          short-form animation, stickers, and eventually physical goods.
+        </p>
+        <p class="verdict">
+          This is the one. It matches what you actually have, it doesn&rsquo;t require a UA
+          budget, and its ceiling is many times higher than the game&rsquo;s own ad revenue —
+          see the arithmetic below.
+        </p>
+      </div>
+    </div>
+
+    <div class="note">
+      <div class="h">The consequence</div>
+      <p>
+        If Path B is right, then <strong>every feature gets judged on whether it makes
+        the characters more lovable or more shareable</strong>, not just whether it
+        extends session length. That reorders the entire backlog — which is why the
+        graphics work below outranks most of the gameplay work.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>Graphics</h2>
+    <p>
+      The renderer is already the right architecture: <code>drawChar()</code> builds
+      each character from a joint skeleton with a two-pass ink/body outline, so poses
+      are parameters rather than sprites. That means animation improvements are code,
+      not art hours. Don&rsquo;t throw it out for sprite sheets — extend it.
+    </p>
+    <p>
+      Ranked by what actually changes how the game feels, cheapest first:
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Change</th><th>Why it matters</th><th>Effort</th><th>Impact</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="what">Squash &amp; stretch</td>
+            <td class="why">The single biggest gap. Rubber-hose animation <em>is</em> deformation — Pip currently stays rigid through a kick. Compress on contact, overshoot on release, squash the shuttlecock on impact. The pose system already takes parameters; this is one more.</td>
+            <td><span class="pill p-lo">~30 lines</span></td>
+            <td><span class="pill p-hi">Transformative</span></td>
+          </tr>
+          <tr>
+            <td class="what">Line boil</td>
+            <td class="why">Redraw outlines with 1–2px of random jitter at 8fps instead of 60. Instantly reads as hand-inked rather than computed. Almost free, and it&rsquo;s the difference between &ldquo;canvas demo&rdquo; and &ldquo;cartoon.&rdquo;</td>
+            <td><span class="pill p-lo">Tiny</span></td>
+            <td><span class="pill p-hi">Very high</span></td>
+          </tr>
+          <tr>
+            <td class="what">Anticipation</td>
+            <td class="why">A 3-frame wind-up before the leg swings. Right now the kick is instantaneous, which is why it reads mechanical. Classic principle, and it makes timing legible.</td>
+            <td><span class="pill p-lo">Small</span></td>
+            <td><span class="pill p-hi">High</span></td>
+          </tr>
+          <tr>
+            <td class="what">Sideline crowd</td>
+            <td class="why">Put the other two characters at the edges reacting — cheering a chain, wincing at a near-drop. Reuses <code>drawChar()</code> entirely, and it&rsquo;s the cheapest personality you will ever buy. Also the thing that makes clips shareable.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-hi">High</span></td>
+          </tr>
+          <tr>
+            <td class="what">Palette chapters</td>
+            <td class="why">Every 25 kicks, rotate the whole background palette (red → ochre → teal → dusk). Gives an endless run visible chapters, makes long runs feel earned, and turns a screenshot into proof of skill.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-hi">High</span></td>
+          </tr>
+          <tr>
+            <td class="what">Smear frames</td>
+            <td class="why">On a fast kick, stretch the leg along its motion vector for one frame. What sells speed in hand-drawn animation. Subtle but it&rsquo;s the texture people can&rsquo;t name and always notice.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-md">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="what">Shuttlecock trail</td>
+            <td class="why">A short ribbon showing the arc. Makes the physics readable and the screenshots better.</td>
+            <td><span class="pill p-lo">Small</span></td>
+            <td><span class="pill p-md">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="what">Layered flat background</td>
+            <td class="why">Keep the flat colour fields — they&rsquo;re your brand — but add parallaxing mid-century poster shapes behind. Resist illustrated scenery; it would fight the graphic style you already have.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-md">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <div class="h">Do these two first</div>
+      <p>
+        <strong>Squash &amp; stretch plus line boil</strong> is under an hour of work and will
+        do more for how the game feels than every gameplay feature on the next list
+        combined. Feel is not a polish phase — in an arcade game it is the product.
+      </p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>Gameplay</h2>
+    <p>
+      The honest diagnosis: <strong>one verb, no depth curve, no reason to return.</strong>
+      The tap is good. Everything around it is missing. Fix in this order:
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>What it solves</th><th>Effort</th><th>Impact</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="what">Pass mode</td>
+            <td class="why">A second character on the far side; rally back and forth. This is <em>already drawn in your reference art</em> — Pip passing the shuttlecock to Zip. It activates the horizontal axis, which is currently dead space, and turns a solo test into a relationship. Best single addition on this page.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-hi">Very high</span></td>
+          </tr>
+          <tr>
+            <td class="what">Daily challenge</td>
+            <td class="why">One fixed seed a day, everyone gets the identical run, one attempt. The highest-retention feature per line of code in the entire genre. Gives people a reason to open the app that isn&rsquo;t boredom.</td>
+            <td><span class="pill p-lo">Small</span></td>
+            <td><span class="pill p-hi">Very high</span></td>
+          </tr>
+          <tr>
+            <td class="what">Run chapters</td>
+            <td class="why">Pair the palette shift with a modifier — gusty, low-gravity, double-or-nothing. Converts a flat endless run into an escalating gauntlet with memorable moments to talk about.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-hi">High</span></td>
+          </tr>
+          <tr>
+            <td class="what">Swipe = trick kick</td>
+            <td class="why">A second verb. Worth double, but sends the shuttlecock higher and less predictably — risk stacked on the existing risk. Adds a decision to every touch instead of just a timing window.</td>
+            <td><span class="pill p-lo">Small</span></td>
+            <td><span class="pill p-hi">High</span></td>
+          </tr>
+          <tr>
+            <td class="what">Bank the chain</td>
+            <td class="why">Cash out your multiplier for guaranteed points, or push and risk it all. Turns a reflex game into a game with a gambling decision — the thing that makes runs feel like <em>yours</em>.</td>
+            <td><span class="pill p-lo">Small</span></td>
+            <td><span class="pill p-md">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="what">Missions</td>
+            <td class="why">&ldquo;Five perfects in a row.&rdquo; &ldquo;Score 100 as Blaze.&rdquo; Drip-feeds goals and pushes people onto characters they&rsquo;d otherwise ignore. Also the natural hook for cosmetic rewards later.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-md">Medium</span></td>
+          </tr>
+          <tr>
+            <td class="what">Targets &amp; hazards</td>
+            <td class="why">Rings to kick through, birds to dodge. Adds aiming, punishes autopilot. Lower priority — it risks muddying a mechanic whose strength is that it&rsquo;s one clean idea.</td>
+            <td><span class="pill p-md">Medium</span></td>
+            <td><span class="pill p-lo">Careful</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What not to build</h3>
+    <ul>
+      <li><strong>Levels and stars.</strong> Endless arcade with a daily seed is a better fit and a fraction of the content cost.</li>
+      <li><strong>An energy or lives system.</strong> It buys a little revenue and costs you the entire goodwill of a charm-led game. Wrong instrument for this product.</li>
+      <li><strong>Multiplayer.</strong> Async leaderboards give you most of the social value for none of the netcode. Real-time is a trap at this stage.</li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>Money</h2>
+    <p>
+      Here is the part most design docs soften. I&rsquo;d rather give you the real numbers,
+      because they change what you should build.
+    </p>
+
+    <h3>What to actually implement</h3>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Lever</th><th>Detail</th><th>Verdict</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="what">Rewarded &ldquo;revive&rdquo;</td>
+            <td class="why">Watch an ad to continue after a drop, once per run. Highest-yield placement in the genre by a wide margin — typically 40–60% of ad revenue — and the only ad players actively <em>want</em>. US eCPM roughly $15–30.</td>
+            <td><span class="pill p-ok">Ship it</span></td>
+          </tr>
+          <tr>
+            <td class="what">Remove ads</td>
+            <td class="why">One-time $2.99. Converts 0.5–2% typically; charm-led games land at the top of that band. Cheap to build, no ongoing cost.</td>
+            <td><span class="pill p-ok">Ship it</span></td>
+          </tr>
+          <tr>
+            <td class="what">Cosmetic packs</td>
+            <td class="why">Costumes, hats, alternate palettes. Your art style is unusually well-suited — bold silhouettes take accessories cleanly, and the procedural renderer means a hat is a few paths, not a re-drawn sprite sheet. $0.99–$2.99, or $7.99 for the lot.</td>
+            <td><span class="pill p-ok">Ship it</span></td>
+          </tr>
+          <tr>
+            <td class="what">Interstitials</td>
+            <td class="why">Between runs. Real revenue, real retention damage. If you use them, cap hard at one per three runs and never on the first session.</td>
+            <td><span class="pill p-md">Sparingly</span></td>
+          </tr>
+          <tr>
+            <td class="what">Battle pass</td>
+            <td class="why">Needs roughly 50k daily actives before the content treadmill pays for itself. Not a v1 conversation.</td>
+            <td><span class="pill p-lo">Later</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The arithmetic nobody shows you</h3>
+    <p>
+      Assume the game does genuinely well for a solo project — 50,000 downloads, healthy
+      retention, no paid acquisition:
+    </p>
+
+    <div class="compare">
+      <div class="model">
+        <div class="hd">The game · 50k downloads</div>
+        <div class="row"><span>Ad impressions / user</span><span>~8</span></div>
+        <div class="row"><span>Total impressions</span><span>400,000</span></div>
+        <div class="row"><span>Blended eCPM</span><span>$8</span></div>
+        <div class="row"><span>Ad revenue</span><span>$3,200</span></div>
+        <div class="row"><span>IAP · 1% × $3</span><span>$1,500</span></div>
+        <div class="row"><span>Platform cut (30%)</span><span>−$450</span></div>
+        <div class="row tot"><span>Net, lifetime</span><span>≈ $4,250</span></div>
+      </div>
+
+      <div class="model">
+        <div class="hd">One enamel pin · 500 sold</div>
+        <div class="row"><span>Retail</span><span>$12</span></div>
+        <div class="row"><span>Unit cost</span><span>−$4</span></div>
+        <div class="row"><span>Fulfilment / fees</span><span>−$2</span></div>
+        <div class="row"><span>Margin per unit</span><span>$6</span></div>
+        <div class="row"><span>Units</span><span>500</span></div>
+        <div class="row"><span>&nbsp;</span><span>&nbsp;</span></div>
+        <div class="row tot"><span>Net</span><span>≈ $3,000</span></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <div class="h">Read that again</div>
+      <p>
+        A single pin sold to 500 people earns roughly what 50,000 downloads earn. Mobile
+        games are a <strong>distribution</strong> business wearing a product costume — and
+        distribution is exactly what a character with an audience gives you. The game is
+        how people meet Pip. It is not, realistically, how Pip pays for himself.
+      </p>
+    </div>
+
+    <h3>Which means the real work is upstream</h3>
+    <p>
+      Games that launch cold on the App Store die on day one; discovery there is
+      effectively zero without either a UA budget or external traffic. Since Path A is
+      out, you need the traffic.
+    </p>
+    <ul>
+      <li><strong>Post the characters before the game exists.</strong> Short animated
+        loops of Pip doing small dumb things. Your renderer can already export these —
+        it&rsquo;s a pose system, so it's an animation tool you happen to have written.</li>
+      <li><strong>Make a sticker pack now.</strong> Free, near-zero effort from the art
+        you have, and it puts the characters into people&rsquo;s messages — which is
+        distribution you can&rsquo;t buy.</li>
+      <li><strong>Launch the game to an audience that already exists</strong>, even a
+        small one. Ten thousand people who like Pip beat a hundred thousand cold installs
+        on every metric that matters.</li>
+    </ul>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>Ship order</h2>
+    <p>
+      This is a real sequence — each stage makes the next one worth doing.
+    </p>
+
+    <div class="ship">
+      <div class="stage">
+        <div class="n"></div>
+        <div class="bd">
+          <div class="ti">Make it feel right</div>
+          <div class="wk">A weekend</div>
+          <p>Squash &amp; stretch, line boil, anticipation frames, shuttlecock trail. No new
+            features. The game should feel twice as good with the same rules — and if it
+            doesn&rsquo;t, nothing after this will save it.</p>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="n"></div>
+        <div class="bd">
+          <div class="ti">Give it a second day</div>
+          <div class="wk">A week</div>
+          <p>Daily challenge with a fixed seed, local leaderboard, swipe trick kick,
+            banking the chain. This is the point at which it stops being a demo.</p>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="n"></div>
+        <div class="bd">
+          <div class="ti">Bring the cast in</div>
+          <div class="wk">A week or two</div>
+          <p>Pass mode with Zip, sideline reactions from whoever isn&rsquo;t playing, palette
+            chapters. The characters stop being skins and start being a cast.</p>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="n"></div>
+        <div class="bd">
+          <div class="ti">Build the audience</div>
+          <div class="wk">Ongoing, starts now</div>
+          <p>Sticker pack, short-form animation loops, a landing page. Runs in parallel
+            with everything above — it has the longest lead time, so it cannot start last.</p>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="n"></div>
+        <div class="bd">
+          <div class="ti">Wrap and ship</div>
+          <div class="wk">Two to three weeks</div>
+          <p>Capacitor or Expo wrapper, rewarded revive, remove-ads IAP, first cosmetic
+            pack, store listing. Ship to the audience stage four built, not to a cold store.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section>
+    <h2>One more idea worth taking seriously</h2>
+    <p class="lede">
+      The renderer you have is an animation tool that thinks it&rsquo;s a game.
+    </p>
+    <p>
+      <code>drawChar()</code> takes a pose and draws any of the three characters in the
+      house style, at any scale, instantly. That is the expensive part of a cartoon
+      pipeline, and you already built it by accident. A small editor on top — pose
+      keyframes, a timeline, export to GIF or MP4 — would let you produce short-form
+      character content in minutes instead of days.
+    </p>
+    <p>
+      For Path B that&rsquo;s not a side quest, it&rsquo;s the engine of the whole plan: the
+      thing that makes &ldquo;post the characters constantly&rdquo; sustainable for one person.
+      Worth a weekend, well before the game is finished.
+    </p>
+  </section>
+
+  <footer>
+    Pip Kick · direction memo · v0.1 prototype<br>
+    Revenue figures are industry-typical estimates for a solo-published casual title,
+    not projections. Treat them as orders of magnitude for prioritising, not as a forecast.
+  </footer>
+
+</div>
